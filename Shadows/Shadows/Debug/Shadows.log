@@ -1,3 +1,10 @@
-﻿  HeightMap.cpp
-d:\dropbox (personal)\teaching\real-time 3d techniques\2019 share\2019 vs projects\rt3d2019_shadows\shadows\heightmap.cpp(142): warning C4389: '!=': signed/unsigned mismatch
-  Shadows.vcxproj -> D:\Dropbox (Personal)\Teaching\Real-Time 3D Techniques\2019 Share\2019 VS Projects\RT3D2019_Shadows\Debug\Shadows.exe
+﻿  Performing Custom Build Tools
+F:\ThirdYear\RT3D\Shadows\Shadows\Shadows\DrawHeightMap.hlsl(95,23): warning X3206: 'mul': implicit truncation of vector type
+F:\ThirdYear\RT3D\Shadows\Shadows\Shadows\DrawHeightMap.hlsl(95,9): warning X3206: implicit truncation of vector type
+F:\ThirdYear\RT3D\Shadows\Shadows\Shadows\DrawHeightMap.hlsl(97,33): warning X3206: 'GetLightingColour': implicit truncation of vector type
+  
+  Microsoft (R) Direct3D Shader Compiler 9.29.952.3111
+  Copyright (C) Microsoft Corporation 2002-2009. All rights reserved.
+  
+  compilation succeeded; see F:\ThirdYear\RT3D\Shadows\Shadows\Shadows\DrawHeightMap.o
+  Shadows.vcxproj -> F:\ThirdYear\RT3D\Shadows\Shadows\Debug\Shadows.exe

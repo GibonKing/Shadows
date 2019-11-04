@@ -76,8 +76,8 @@ struct VSInput
 struct PSInput
 {
 	float4 pos:SV_Position;
+	float4 oPos:POSITION;
 	float4 colour:COLOUR0;
-// Something missing here...
 
 };
 
@@ -89,9 +89,8 @@ struct PSOutput
 // This gets called for every vertex which needs to be transformed
 void VSMain(const VSInput input, out PSInput output)
 {
-	output.pos = mul(input.pos, g_WVP);
-
-	// You also need to pass through the untransformed world position to the PS
+	output.pos = mul(input.pos, g_WVP); // Pass the World Position of Pixel
+	output.oPos = input.pos; // Pass the Oringinal Position of Pixel
 
 	float3 worldNormal = mul(input.normal, g_InvXposeW);
 
@@ -101,15 +100,26 @@ void VSMain(const VSInput input, out PSInput output)
 // This gets called for every pixel which needs to be drawn
 void PSMain(const PSInput input, out PSOutput output)
 {
-	output.colour = input.colour;
-
 	// Transform the pixel into light space
+	float4 lightSpacePos = mul(input.oPos, g_shadowMatrix);
 
 	// Perform perspective correction
+	float4 lightSpacePerspective = lightSpacePos / lightSpacePos.w;
 
 	// Scale and offset uvs into 0-1 range.
-
+	float2 UV = float2(lightSpacePerspective.x, lightSpacePerspective.y);
+	UV *= 0.5;
+	UV.x += 0.5f;
+	UV.y += 0.5f;
+	UV.y = 1.0f - UV.y;
 	// Sample render target to see if this pixel is in shadow
+	float4 shadow = g_shadowTexture.Sample(g_shadowSampler, UV);
 
 	// If it is then alpha blend between final colour and shadow colour
+	if (all(shadow == float4(1.f, 1.f, 1.f, 1.f)) && lightSpacePos.w >= 0) {
+		output.colour = lerp(input.colour, g_shadowColour, g_shadowColour.a);
+	}
+	else {
+		output.colour = input.colour;
+	}
 }
